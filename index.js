@@ -12,6 +12,6 @@ app.get('/saludo', (req,res) => {
 
 
 
-app.listen(4000, () => {
+app.listen(PORTLOCAL, () => {
     console.log('El servidor se está ejecutando en el puerto 4000');
 });
