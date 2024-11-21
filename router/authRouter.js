@@ -1,4 +1,11 @@
+const express = require('express');
+const routerAuth = express.Router();
 
 
 
-app.use('/auth', require('./router/authRouter'));
+routerAuth.post('login', (req,res) => {
+    res.send ('login');
+    });
+
+
+module.exports = routerAuth;

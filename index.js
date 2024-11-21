@@ -3,12 +3,7 @@ const app = express();
 require('dotenv').config();
 
 
-// #creamos  un endpoint 
-app.get('/saludo', (req,res) => {
-		res.send ('Hola saludos desde el backend');
-});
-
-
+app.use('/auth', require('./router/authRouter'));
 
 
 
