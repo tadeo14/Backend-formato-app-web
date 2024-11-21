@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+require('dotenv').config();
 
 
 // #creamos  un endpoint 
@@ -12,6 +12,6 @@ app.get('/saludo', (req,res) => {
 
 
 
-app.listen(PORTLOCAL, () => {
-    console.log('El servidor se está ejecutando en el puerto 4000');
+app.listen(process.env.PORTLOCAL, () => {
+    console.log(`El servidor se está ejecutando en el puerto ${process.env.PORTLOCAL}`);
 });
