@@ -1,6 +1,8 @@
 const express = require('express');
 const routerAuth = express.Router();
 
+const { createUser } = require('../controllers/authControllers');
+
 
 
 routerAuth.post('/login', (req,res) => {
@@ -8,14 +10,6 @@ routerAuth.post('/login', (req,res) => {
 });
 
 
-routerAuth.post('/registro', (req,res) => {
-    const { name, email, password } = req.body;
-
-    //validations
-    if (!name || !email || !password) {
-        res.send ('All fields are required');
-    }
-    res.send('User created');
-});
+routerAuth.post('/registro',createUser );
 
 module.exports = routerAuth;
