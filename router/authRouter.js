@@ -9,8 +9,13 @@ routerAuth.post('/login', (req,res) => {
 
 
 routerAuth.post('/registro', (req,res) => {
-    console.log(req.body);
-    res.send('usuario creado');
+    const { name, email, password } = req.body;
+
+    //validations
+    if (!name || !email || !password) {
+        res.send ('All fields are required');
+    }
+    res.send('User created');
 });
 
 module.exports = routerAuth;
