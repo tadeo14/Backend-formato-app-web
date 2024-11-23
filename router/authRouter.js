@@ -9,7 +9,8 @@ routerAuth.post('/login', (req,res) => {
 
 
 routerAuth.post('/registro', (req,res) => {
-    
+    console.log(req.body);
+    res.send('usuario creado');
 });
 
 module.exports = routerAuth;
