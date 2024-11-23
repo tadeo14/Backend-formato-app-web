@@ -5,10 +5,7 @@ const UsuarioSchema = Schema({
         type: String,
         required: true,
     },
-	
-    edad: {
-        type: Number,
-    },
+	  
     email: {
         type: String,
         required: true,
