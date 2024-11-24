@@ -11,6 +11,13 @@ const createUser = async (req, res) => {
         res.send('All fields are required');
     }
 
+    let usuario = await usuarioModel.findOne ({ email });
+        if (usuario) {
+		return res.json ({
+					msg: 'The user is already registered',
+			});
+	}
+        
 
     //add id
     const user = new usuarioModel(req.body);
@@ -20,7 +27,9 @@ const createUser = async (req, res) => {
     await user.save();
 
 
-    res.send('User created');
+        res.json({
+            msg: 'User created',
+        });
     } catch (error) {
         console.error(error);
     }
