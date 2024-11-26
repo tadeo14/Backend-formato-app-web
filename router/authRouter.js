@@ -5,9 +5,7 @@ const { createUser } = require('../controllers/authControllers');
 
 
 
-routerAuth.post('/login', (req,res) => {
-    res.send ('login');
-});
+routerAuth.post('/login',);
 
 
 routerAuth.post('/registro',createUser );

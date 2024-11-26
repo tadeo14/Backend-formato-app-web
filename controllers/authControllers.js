@@ -48,4 +48,11 @@ const createUser = async (req, res) => {
     
 };
 
-module.exports = { createUser };
+const getUser = async (req, res) => {
+    res.send ('login');
+}
+
+
+
+
+module.exports = { createUser, getUser };
