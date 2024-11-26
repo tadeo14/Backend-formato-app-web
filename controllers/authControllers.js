@@ -49,8 +49,35 @@ const createUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-    res.send ('login');
-}
+    const { email, password } = req.body;
+    if (email === '' || password === '') {
+        res.status(400).json({
+            msg: 'All fields are required',
+        });
+    }
+    
+
+    //verificamos si el usuario existe
+    let usuario = await usuarioModel.findOne ({ email });
+    if (!usuario) {
+        return res.status(400).json({
+            msg: 'El usuario o contraseña no existe',
+        });
+    }
+
+    //validar password, comparo la contraseña del correo que ingrese con la que ingreso el Usuario
+    const validarPassword = bcrypt.compareSync(password, usuario.password ); // true
+    if (!validarPassword) {
+        res.status(400).json({
+            msg: 'El usuario o contraseña no existe',
+        });
+    }
+
+    res.status(200).json({
+        msg: 'User found',
+    });
+
+    };
 
 
 
