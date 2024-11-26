@@ -16,7 +16,7 @@ const createUser = async (req, res) => {
 
     let usuario = await usuarioModel.findOne ({ email });
         if (usuario) {
-		return res.json ({
+		return res.status(400).json ({
 					msg: 'The user is already registered',
 			});
 	}
@@ -37,11 +37,13 @@ const createUser = async (req, res) => {
     await user.save();
 
 
-        res.json({
+        res.status(201).json({
             msg: 'User created',
         });
     } catch (error) {
-        console.error(error);
+        res.status(500).json({
+            msg: 'Contact you wiht support',
+        });
     }
     
 };
