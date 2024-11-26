@@ -8,7 +8,10 @@ const createUser = async (req, res) => {
 
     //validations
     if (!name || !email || !password) {
-        res.send('All fields are required');
+        res.status(400).json({
+            msg:'All fields are required',
+    });
+           
     }
 
     let usuario = await usuarioModel.findOne ({ email });
