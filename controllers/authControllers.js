@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const usuarioModel = require('../models/usuario-model');
+var jwt = require('jsonwebtoken');
+
 
 const createUser = async (req, res) => {
     
@@ -49,33 +51,53 @@ const createUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-    const { email, password } = req.body;
-    if (email === '' || password === '') {
-        res.status(400).json({
-            msg: 'All fields are required',
-        });
-    }
+    try {
+        const { email, password } = req.body;
+        if (email === '' || password === '') {
+            res.status(400).json({
+                msg: 'All fields are required',
+            });
+        }
+        
     
+        //verificamos si el usuario existe
+        let usuario = await usuarioModel.findOne ({ email });
+        if (!usuario) {
+            return res.status(400).json({
+                msg: 'El usuario o contraseña no existe',
+            });
+        }
+    
+        //validar password, comparo la contraseña del correo que ingrese con la que ingreso el Usuario
+        const validarPassword = bcrypt.compareSync(password, usuario.password ); // true
+        if (!validarPassword) {
+            res.status(400).json({
+                msg: 'El usuario o contraseña no existe',
+            });
+        }
+    
+        const payload = {
+            id: usuario._id,  // Incluyendo el ID del usuario en el payload del token
+            name: usuario.name,
+            rol: usuario.rol,
+        };
+    
+        const token = jwt.sign(payload, process.env.SECRET_JWT, { expiresIn: '3h' });
+    
+    
+        res.status(200).json({
+                msg: 'Login exitoso',
+                token,
+                rol: usuario.rol,
+            });
 
-    //verificamos si el usuario existe
-    let usuario = await usuarioModel.findOne ({ email });
-    if (!usuario) {
-        return res.status(400).json({
-            msg: 'El usuario o contraseña no existe',
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Contactarse con un administrador',
         });
     }
-
-    //validar password, comparo la contraseña del correo que ingrese con la que ingreso el Usuario
-    const validarPassword = bcrypt.compareSync(password, usuario.password ); // true
-    if (!validarPassword) {
-        res.status(400).json({
-            msg: 'El usuario o contraseña no existe',
-        });
-    }
-
-    res.status(200).json({
-        msg: 'User found',
-    });
+   
 
     };
 
